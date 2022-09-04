@@ -130,18 +130,18 @@ export class Peanut {
                             else if (code === 'POOR_SIGNAL' || code === 'sampleNumber' || code === 'debug0' || code === 'debug1' || code === 'debug2' || code === 'debug3') 
                                 unpacked = unpacked[0];
 
-                            this.data[this.codes[line[i]].type][this.data.count-1](unpacked);
+                            this.data[this.codes[line[i]].type][this.data.count-1] = unpacked;
                                
                             i += this.codes[line[i]].byteLength;
 
                             if(this.data.count >= this.maxBufferedSamples) { 
-                                this.data[channel].splice(0,5120);
-                                this.data[channel].push(new Array(5120).fill(0));//shave off the last 10 seconds of data if buffer full (don't use shift())
+                                this.data[line[i]].splice(0,5120);
+                                this.data[line[i]].push(new Array(5120).fill(0));//shave off the last 10 seconds of data if buffer full (don't use shift())
                             }
                             
                         } else i++; //probably junk in this byte, skip it
 
-                        	//console.log(this.data[channel][this.data.count-1],indices[k], channel)
+                        	//console.log(this.data[line[i]][this.data.count-1],indices[k], line[i])
 					}
 
 					if(this.data.count >= this.maxBufferedSamples) { 
